@@ -79,3 +79,36 @@ SELECT
   COUNT(*) FILTER (WHERE "HouseOwnerFlag" = 1) AS homeowners
 FROM "Contoso_Customers"
 GROUP BY "Gender";
+
+
+-- (8) Using COALESCE()
+-- COALESCE(x, y) returns the first non-null value.
+-- This ensures no NULLs are returned common when displaying or calculating with optional or dirty data.
+
+SELECT
+  "CustomerKey",
+  "NumberChildrenAtHome",
+  COALESCE("NumberChildrenAtHome", 0) AS safe_child_count
+FROM "Contoso_Customers";
+
+-- (9)
+-- Returns the largest value from a list of expressions.
+-- Useful for comparisons, thresholds, capping, and conditional formatting.
+SELECT
+  "SalesKey",
+  "SalesAmount",
+  "ReturnAmount",
+  GREATEST("SalesAmount", "ReturnAmount") AS higher_value
+FROM "Contoso_Sales"
+LIMIT 10;
+
+-- (10)
+-- Returns the smallest value in the list.
+-- Helpful for price comparisons, applying business rules (e.g. price floor), or conditional logic.
+
+SELECT
+  "SalesKey",
+  "UnitCost",
+  "UnitPrice",
+  LEAST("UnitCost", "UnitPrice") AS lower_price_point
+FROM "Contoso_Sales";
